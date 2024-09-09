@@ -68,7 +68,7 @@ To set up the Quiz Builder locally:
 4. **Quiz Generation**:
    ![Quiz Generation](images/quizgenerator.png)
 
-5. 4. **Quiz Format**:
+5. **Quiz Format**:
    ![Quiz Generation](images/generatedquizinjason.png)
 
 5. **Screen State Handling**:
