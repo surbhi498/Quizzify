@@ -62,7 +62,7 @@ To set up the Quiz Builder locally:
    ![Document Ingestion](images/documentingest.png)
 
 3. **Quiz Generation**:
-   ![Quiz Generation](images/quiz_generator.png)
+   ![Quiz Generation](images/generatedquizinjason.png)
 
 4. **Algorithm**: 
    ![Generate Quiz Algorithm](images/generatedquizalogo.png)
