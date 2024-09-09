@@ -10,6 +10,14 @@ from tasks.task_4.task_4 import EmbeddingClient
 from langchain_core.documents import Document
 from langchain.text_splitter import CharacterTextSplitter
 from langchain_community.vectorstores import Chroma
+import os
+google_credentials_path = os.getenv('GOOGLE_APPLICATION_CREDENTIALS')
+
+if google_credentials_path:
+    os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = google_credentials_path
+else:
+    raise EnvironmentError("GOOGLE_APPLICATION_CREDENTIALS not found in environment variables")
+
 
 class ChromaCollectionCreator:
     def __init__(self, processor, embed_model):
@@ -57,7 +65,28 @@ class ChromaCollectionCreator:
         # Use a TextSplitter from Langchain to split the documents into smaller text chunks
         # https://python.langchain.com/docs/modules/data_connection/document_transformers/character_text_splitter
         # [Your code here for splitting documents]
-        
+       # Step 2: Split documents into text chunks
+        try:
+            text_splitter = CharacterTextSplitter(
+                separator="\n\n",
+                chunk_size=3000,
+                chunk_overlap=200,
+                length_function=len,
+                is_separator_regex=False,
+            )
+            st.write(f"Structure of documents: {self.processor.pages[0]}")
+            all_text = [ doc.page_content for doc in self.processor.pages]
+            all_text_combined = "\n\n".join(all_text)
+            texts = text_splitter.create_documents([all_text_combined])
+            
+            if texts:
+                st.success(f"Successfully split pages into {len(texts)} documents!", icon="✅")
+            else:
+                st.error("Failed to split documents!", icon="🚨")
+                return
+        except Exception as e:
+            st.error(f"Error occurred during text splitting: {str(e)}", icon="🚨")
+            return
         if texts is not None:
             st.success(f"Successfully split pages to {len(texts)} documents!", icon="✅")
 
@@ -65,11 +94,20 @@ class ChromaCollectionCreator:
         # https://docs.trychroma.com/
         # Create a Chroma in-memory client using the text chunks and the embeddings model
         # [Your code here for creating Chroma collection]
+        self.db = Chroma.from_documents(texts, self.embed_model)
         
         if self.db:
             st.success("Successfully created Chroma Collection!", icon="✅")
         else:
             st.error("Failed to create Chroma Collection!", icon="🚨")
+    
+    def get_retriever(self):
+        """
+        Returns a retriever for the Chroma collection.
+        """
+        if self.db is None:
+            raise ValueError("Chroma Collection has not been created yet. Call create_chroma_collection() first.")
+        return self.db.as_retriever()        
     
     def query_chroma_collection(self, query) -> Document:
         """
@@ -93,7 +131,7 @@ if __name__ == "__main__":
     
     embed_config = {
         "model_name": "textembedding-gecko@003",
-        "project": "YOUR PROJECT ID HERE",
+        "project": "geminiquizzify-435113",
         "location": "us-central1"
     }
     

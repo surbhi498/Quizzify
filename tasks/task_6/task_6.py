@@ -5,6 +5,19 @@ sys.path.append(os.path.abspath('../../'))
 from tasks.task_3.task_3 import DocumentProcessor
 from tasks.task_4.task_4 import EmbeddingClient
 from tasks.task_5.task_5 import ChromaCollectionCreator
+from dotenv import load_dotenv
+
+# Load environment variables from .env file
+# load_dotenv()
+
+# import os
+# google_credentials_path = os.getenv('GOOGLE_APPLICATION_CREDENTIALS')
+
+# if google_credentials_path:
+#     os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = google_credentials_path
+# else:
+#     raise EnvironmentError("GOOGLE_APPLICATION_CREDENTIALS not found in environment variables")
+
 
 f"""
 Task: Build a Quiz Builder with Streamlit and LangChain
@@ -45,7 +58,7 @@ if __name__ == "__main__":
     # Configuration for EmbeddingClient
     embed_config = {
         "model_name": "textembedding-gecko@003",
-        "project": "YOUR PROJECT ID HERE",
+        "project": "geminiquizzify-435113",
         "location": "us-central1"
     }
     
@@ -57,26 +70,40 @@ if __name__ == "__main__":
         # 2) Initalize the EmbeddingClient from Task 4 with embed config
         # 3) Initialize the ChromaCollectionCreator from Task 5
         ####### YOUR CODE HERE #######
+        processor = DocumentProcessor()
+        embed_client = EmbeddingClient(**embed_config)
+        chroma_creator = ChromaCollectionCreator(processor, embed_client)
 
         with st.form("Load Data to Chroma"):
             st.subheader("Quiz Builder")
             st.write("Select PDFs for Ingestion, the topic for the quiz, and click Generate!")
-            
+            # # Add file uploader for PDF documents
+            # uploaded_files = st.file_uploader(
+            #     "Upload PDF documents", 
+            #     type=["pdf"], 
+            #     accept_multiple_files=True
+            # )
+            # Use the DocumentProcessor to upload and process PDFs
+            processor.ingest_documents()
             ####### YOUR CODE HERE #######
             # 4) Use streamlit widgets to capture the user's input
             # 4) for the quiz topic and the desired number of questions
             ####### YOUR CODE HERE #######
+            topic_input = st.text_input("Quiz Topic:", value="")
+            num_questions = st.slider("Number of Questions:", min_value=1, max_value=10, value=5)
             
             document = None
             
             submitted = st.form_submit_button("Generate a Quiz!")
             if submitted:
+            
+            
                 ####### YOUR CODE HERE #######
                 # 5) Use the create_chroma_collection() method to create a Chroma collection from the processed documents
                 ####### YOUR CODE HERE #######
-                    
+                chroma_creator.create_chroma_collection()    
                 # Uncomment the following lines to test the query_chroma_collection() method
-                # document = chroma_creator.query_chroma_collection(topic_input) 
+                document = chroma_creator.query_chroma_collection(topic_input) 
                 
     if document:
         screen.empty() # Screen 2
