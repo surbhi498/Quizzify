@@ -66,12 +66,22 @@ To set up the Quiz Builder locally:
    ![Generate Quiz Algorithm](images/generatedquizalogo.png)   
 
 4. **Quiz Generation**:
+   ![Quiz Generation](images/quizgenerator.png)
+
+5. 4. **Quiz Format**:
    ![Quiz Generation](images/generatedquizinjason.png)
-
-
 
 5. **Screen State Handling**:
    ![Screen State Handling](images/screenstatehandling.png)
 
 6. **Example Program Output**:
    ![Program Output](images/generatedquiz.png)
+
+## Contributions
+
+If you would like to contribute to this project, please follow these steps:
+
+1. **Fork the repository**: Click the "Fork" button on the top-right of the repository page to create a copy of the repository under your GitHub account.
+2. **Clone your fork**: Clone your forked repository to your local machine.
+   ```bash
+   git clone <your-fork-repository-url>
