@@ -55,17 +55,20 @@ To set up the Quiz Builder locally:
 
 ## Screenshots and Illustrations
 
-1. **Embedding Client**:
-   ![Embedding Client](images/embedding.png)
-
-2. **Document Ingestion**:
+1. **Document Ingestion**:
    ![Document Ingestion](images/documentingest.png)
 
-3. **Quiz Generation**:
+
+2. **Embedding Client**:
+   ![Embedding Client](images/embedding.png)
+
+3. **Algorithm**: 
+   ![Generate Quiz Algorithm](images/generatedquizalogo.png)   
+
+4. **Quiz Generation**:
    ![Quiz Generation](images/generatedquizinjason.png)
 
-4. **Algorithm**: 
-   ![Generate Quiz Algorithm](images/generatedquizalogo.png)
+
 
 5. **Screen State Handling**:
    ![Screen State Handling](images/screenstatehandling.png)
